@@ -18,7 +18,7 @@ The template does not use any external nuget packages. Feel free to use them if 
 
 ## Development
 
-Please fork the repository and push your code to your fork. Feel free to use a different code hosting solution if you prefer it, such as GitLab.
+Please clone the repository and push your code to a branch created off of main.
 
 Please commit your code after you have completed each task with the message of `Complete X task`, where X is the number of the task. You can make commits in between if you need to. If you commit a completed task and want to change it, please commit with the message `Complete X task update`, where X is the number of the task.
 
