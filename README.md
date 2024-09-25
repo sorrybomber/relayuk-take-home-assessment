@@ -4,13 +4,13 @@
 
 This is a barebones MAUI template for a project called "TakeHomeAssessment".
 
-There are four tasks that need completing as part of this assessment. We would like you to provide a working solution that you have tested on two platforms, one mobile (Android or iOS) and one desktop (Windows or macOS).
+There is one task that needs completing as part of this assessment. We would like you to provide a working solution that you have tested on two platforms, one mobile (Android or iOS) and one desktop (Windows or macOS).
 
 The following has already been done for you:
 
 - Views required have been created and placed in the `Views` folder
 - Views have been registered with routing in `AppShell`
-- View model bindings have been created and implemented for the `MainPage`, found in the `ViewModels` folder
+- View model bindings have been created and implemented
 - Models required have been created, found in the `Models` folder
 - `Nullable` has been turned off, so you will not get warnings about null related issues
 
@@ -18,19 +18,11 @@ The template does not use any external nuget packages. Feel free to use them if 
 
 ## Development
 
-Please clone the repository and push your code to a branch created off of main.
+Please clone the repository and push your code to a branch created off of main. Commit your code to this branch.
 
-Please commit your code after you have completed each task with the message of `Complete X task`, where X is the number of the task. You can make commits in between if you need to. If you commit a completed task and want to change it, please commit with the message `Complete X task update`, where X is the number of the task.
+## The Task
 
-## Task One
-
-Change the button in `MainPage` so that is no longer performs the click counting and instead navigates to the `QuotesPage`.
-
-> The navigation has been defined in an unused method called `NavigateToQuotes` inside of the `MainPageViewModel`
-
-## Task Two
-
-Implement a button on the `QuotesPage`, below the image from task two, that fetches a random quote from the HTTP API provided. The button should have the following:
+Implement a button on the `QuotesPage` that fetches a random quote from the HTTP API provided. The button should have the following:
 
 - Text of "Get Quote"
 - A different background colour per platform (iOS, Android, WinUI, MacCatalyst)
@@ -49,7 +41,7 @@ If needed, documentation is available at [https://docs.zenquotes.io/zenquotes-do
 
 ### Styling
 
-Style the quote text from task three based on the following criteria:
+Style the quote text based on the following criteria:
 
 **Font Styling**
 
