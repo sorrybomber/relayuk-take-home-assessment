@@ -1,9 +1,13 @@
-﻿namespace TakeHomeAssessment.Views;
+﻿using TakeHomeAssessment.ViewModels;
+
+namespace TakeHomeAssessment.Views;
 
 public partial class QuotesPage : ContentPage
 {
-	public QuotesPage()
+	public QuotesPage(QuotesPageViewModel quotesPageViewModel)
 	{
 		InitializeComponent();
+
+		this.BindingContext = quotesPageViewModel;
 	}
 }

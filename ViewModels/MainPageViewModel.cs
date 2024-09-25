@@ -6,16 +6,6 @@ namespace TakeHomeAssessment.ViewModels;
 
 public class MainPageViewModel : INotifyPropertyChanged
 {
-    /// <summary>
-    /// The amount of times the main button has been clicked.
-    /// </summary>
-    int count = 0;
-
-    /// <summary>
-    /// The current main button text.
-    /// </summary>
-    private string _buttonText = "Click me!";
-
     public MainPageViewModel()
     {
         this.ButtonClickedCommand = new Command(this.ButtonClickedEventHandler);
@@ -30,29 +20,11 @@ public class MainPageViewModel : INotifyPropertyChanged
     public ICommand ButtonClickedCommand { get; init; }
 
     /// <summary>
-    /// Gets and sets the main button text.
-    /// </summary>
-    public string ButtonText
-    {
-        get => this._buttonText;
-        set
-        {
-            this._buttonText = value;
-            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ButtonText)));
-        }
-    }
-
-    /// <summary>
     /// Handle button event clicks by incrementing the count and updating the button text.
     /// </summary>
-    private void ButtonClickedEventHandler()
+    private async void ButtonClickedEventHandler()
     {
-        this.count++;
-
-        if (count == 1)
-            this.ButtonText = $"Clicked {count} time";
-        else
-            this.ButtonText = $"Clicked {count} times";
+        await this.NavigateToQuotes();
     }
 
     /// <summary>

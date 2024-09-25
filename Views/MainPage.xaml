@@ -27,8 +27,8 @@
                 SemanticProperties.Description="Welcome to dot net Multi platform App U I" />
 
             <Button
-                x:Name="CounterBtn"
-                Text="{Binding ButtonText}" 
+                x:Name="NavigateToQuotesBtn"
+                Text="Navigate to quotes" 
                 SemanticProperties.Hint="Counts the number of times you click"
                 Command="{Binding ButtonClickedCommand}"
                 HorizontalOptions="Fill" />
