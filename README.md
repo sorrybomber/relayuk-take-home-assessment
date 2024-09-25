@@ -30,14 +30,6 @@ Change the button in `MainPage` so that is no longer performs the click counting
 
 ## Task Two
 
-Add an image towards the top of the `QuotesPage`.
-
-Randomise the selection of image everytime you navigate to this page. The random choice should use one of the pre-bundled assets called `quote_image_one` or `quote_image_two` as the source of the image. Size it according to what you think is best per platform.
-
-> The images are already registered in the application using the `Resources/Images` folder
-
-## Task Three
-
 Implement a button on the `QuotesPage`, below the image from task two, that fetches a random quote from the HTTP API provided. The button should have the following:
 
 - Text of "Get Quote"
@@ -55,7 +47,7 @@ No authentication or headers are required to use this API. It is rate limited at
 
 If needed, documentation is available at [https://docs.zenquotes.io/zenquotes-documentation/](https://docs.zenquotes.io/zenquotes-documentation/).
 
-## Task Four
+### Styling
 
 Style the quote text from task three based on the following criteria:
 
