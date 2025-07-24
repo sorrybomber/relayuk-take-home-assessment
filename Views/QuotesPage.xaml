@@ -31,6 +31,7 @@
                    HorizontalTextAlignment="Center" />
 
             <Label Text="{Binding QuoteAuthor}"
+                   BackgroundColor="{Binding BackgroundColour}"
                    FontSize="18"
                    TextColor="Black"
                    LineBreakMode="WordWrap"

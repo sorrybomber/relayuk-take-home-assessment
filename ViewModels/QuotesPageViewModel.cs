@@ -79,6 +79,20 @@ public class QuotesPageViewModel : INotifyPropertyChanged
         }
     }
 
+    private Color _backgroundColour = Colors.White;
+    public Color BackgroundColour
+    {
+        get => _backgroundColour;
+        set
+        {
+            if (_backgroundColour != value)
+            {
+                _backgroundColour = value;
+                OnPropertyChanged(nameof(BackgroundColour));
+            }
+        }
+    }
+
     public ICommand GetQuoteCommand { get; }
 
     public QuotesPageViewModel()
@@ -95,10 +109,11 @@ public class QuotesPageViewModel : INotifyPropertyChanged
             var quote = quotes?.FirstOrDefault();
 
             QuoteText = quote.Content;
-            QuoteAuthor = quote.Author;
+            
             int length = quote.Content.Length;
             ApplyFontStyling(length);
             ApplyTextColours(length);
+            ApplyAuthorModifications(quote.Author);
 
         }
         catch (HttpRequestException ex)
@@ -150,6 +165,19 @@ public class QuotesPageViewModel : INotifyPropertyChanged
                     break;
             }
         }
+    }
+
+    public void ApplyAuthorModifications(string author)
+    {
+        if (author.Contains(' ')){
+            author = author.ToUpper();
+            BackgroundColour = Colors.White;
+        }
+        else
+        {
+            BackgroundColour = Colors.Green;
+        }
+        QuoteAuthor = author;
     }
 
     public void ApplyTextColours(int length)
