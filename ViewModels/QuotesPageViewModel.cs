@@ -23,6 +23,20 @@ public class QuotesPageViewModel : INotifyPropertyChanged
         }
     }
 
+    private string _quoteAuthor;
+    public string QuoteAuthor
+    {
+        get => _quoteAuthor;
+        set
+        {
+            if (_quoteAuthor != value)
+            {
+                _quoteAuthor = value;
+                OnPropertyChanged(nameof(QuoteAuthor));
+            }
+        }
+    }
+
     private FontAttributes _quoteFontAttributes = FontAttributes.None;
     public FontAttributes QuoteFontAttributes
     {
@@ -69,32 +83,43 @@ public class QuotesPageViewModel : INotifyPropertyChanged
 
     public QuotesPageViewModel()
     {
-        GetQuoteCommand = new Command(async () => await GetQuoteAsync());
+        GetQuoteCommand = new Command(async () => await GetQuoteAsync(CancellationToken.None));
     }
 
-    public async Task GetQuoteAsync()
+    public async Task GetQuoteAsync(CancellationToken cancellationToken)
     {
         try
         {
-            var response = await _httpClient.GetStringAsync("https://zenquotes.io/api/random");
+            var response = await _httpClient.GetStringAsync("https://zenquotes.io/api/random", cancellationToken);
             var quotes = JsonSerializer.Deserialize<List<QuoteDTO>>(response);
             var quote = quotes?.FirstOrDefault();
 
-            if (quote != null && !string.IsNullOrEmpty(quote.Content))
-            {
-                QuoteText = quote.Content;
-                int length = quote.Content.Length;
-                ApplyFontStyling(length);
-                ApplyTextColours(length);
-            }
-            else
-            {
-                QuoteText = "No quote found.";
-            }
+            QuoteText = quote.Content;
+            QuoteAuthor = quote.Author;
+            int length = quote.Content.Length;
+            ApplyFontStyling(length);
+            ApplyTextColours(length);
+
+        }
+        catch (HttpRequestException ex)
+        {
+            QuoteText = $"Network error: {ex.Message}";
+        }
+        catch (TaskCanceledException ex)
+        {
+            QuoteText = $"The request timed out. Please try again. {ex.Message}";
+        }
+        catch (JsonException ex)
+        {
+            QuoteText = $"Error parsing quote data: {ex.Message}";
+        }
+        catch (OperationCanceledException ex)
+        {
+            QuoteText = $"Quote fetching was canceled. {ex.Message}";
         }
         catch (Exception ex)
         {
-            QuoteText = $"Error fetching quote: {ex.Message}";
+            QuoteText = $"An unexpected error occurred: {ex.Message}";
         }
     }
 
@@ -117,7 +142,6 @@ public class QuotesPageViewModel : INotifyPropertyChanged
                     break;
                 //the font styling should be underlined
                 case < 80:
-                    QuoteFontAttributes = FontAttributes.None;
                     QuoteTextDecorations = TextDecorations.Underline;
                     break;
                 //the font styling should be italic

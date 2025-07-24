@@ -30,6 +30,12 @@
                    LineBreakMode="WordWrap"
                    HorizontalTextAlignment="Center" />
 
+            <Label Text="{Binding QuoteAuthor}"
+                   FontSize="18"
+                   TextColor="Black"
+                   LineBreakMode="WordWrap"
+                   HorizontalTextAlignment="Center" />
+
         </VerticalStackLayout>
     </ScrollView>
 
