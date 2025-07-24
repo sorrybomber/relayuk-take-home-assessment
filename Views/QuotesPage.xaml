@@ -6,6 +6,31 @@
              Title="Quotes">
 
     <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="20">
+
+            <!-- Get Quote Button -->
+            <Button Text="Get Quote"
+                    Command="{Binding GetQuoteCommand}">
+                <Button.BackgroundColor>
+                    <OnPlatform x:TypeArguments="Color">
+                        <On Platform="iOS" Value="LightSkyBlue" />
+                        <On Platform="Android" Value="LightGreen" />
+                        <On Platform="WinUI" Value="LightCoral" />
+                        <On Platform="MacCatalyst" Value="Plum" />
+                    </OnPlatform>
+                </Button.BackgroundColor>
+            </Button>
+
+            <!-- Label to display the quote -->
+            <Label Text="{Binding QuoteText}"
+                   FontSize="18"
+                   TextColor="{Binding QuoteTextColor}"
+                   FontAttributes="{Binding QuoteFontAttributes}"
+                   TextDecorations="{Binding QuoteTextDecorations}"
+                   LineBreakMode="WordWrap"
+                   HorizontalTextAlignment="Center" />
+
+        </VerticalStackLayout>
     </ScrollView>
 
 </ContentPage>

@@ -1,8 +1,161 @@
 using System.ComponentModel;
+using System.Text.Json;
+using System.Windows.Input;
+using TakeHomeAssessment.Models;
 
 namespace TakeHomeAssessment.ViewModels;
 
 public class QuotesPageViewModel : INotifyPropertyChanged
 {
+    private readonly HttpClient _httpClient = new();
+
+    private string _quoteText;
+    public string QuoteText
+    {
+        get => _quoteText;
+        set
+        {
+            if (_quoteText != value)
+            {
+                _quoteText = value;
+                OnPropertyChanged(nameof(QuoteText));
+            }
+        }
+    }
+
+    private FontAttributes _quoteFontAttributes = FontAttributes.None;
+    public FontAttributes QuoteFontAttributes
+    {
+        get => _quoteFontAttributes;
+        set
+        {
+            if (_quoteFontAttributes != value)
+            {
+                _quoteFontAttributes = value;
+                OnPropertyChanged(nameof(QuoteFontAttributes));
+            }
+        }
+    }
+
+    private TextDecorations _quoteTextDecorations = TextDecorations.None;
+    public TextDecorations QuoteTextDecorations
+    {
+        get => _quoteTextDecorations;
+        set
+        {
+            if (_quoteTextDecorations != value)
+            {
+                _quoteTextDecorations = value;
+                OnPropertyChanged(nameof(QuoteTextDecorations));
+            }
+        }
+    }
+
+    private Color _quoteTextColor = Colors.Black;
+    public Color QuoteTextColor
+    {
+        get => _quoteTextColor;
+        set
+        {
+            if (_quoteTextColor != value)
+            {
+                _quoteTextColor = value;
+                OnPropertyChanged(nameof(QuoteTextColor));
+            }
+        }
+    }
+
+    public ICommand GetQuoteCommand { get; }
+
+    public QuotesPageViewModel()
+    {
+        GetQuoteCommand = new Command(async () => await GetQuoteAsync());
+    }
+
+    public async Task GetQuoteAsync()
+    {
+        try
+        {
+            var response = await _httpClient.GetStringAsync("https://zenquotes.io/api/random");
+            var quotes = JsonSerializer.Deserialize<List<QuoteDTO>>(response);
+            var quote = quotes?.FirstOrDefault();
+
+            if (quote != null && !string.IsNullOrEmpty(quote.Content))
+            {
+                QuoteText = quote.Content;
+                int length = quote.Content.Length;
+                ApplyFontStyling(length);
+                ApplyTextColours(length);
+            }
+            else
+            {
+                QuoteText = "No quote found.";
+            }
+        }
+        catch (Exception ex)
+        {
+            QuoteText = $"Error fetching quote: {ex.Message}";
+        }
+    }
+
+    public void ApplyFontStyling(int length)
+    {
+        QuoteTextDecorations = TextDecorations.None;
+
+        //The quote length is divisible by 3, the font styling should always be bold, with no other styling applied
+        if (length % 3 == 0)
+        {
+            QuoteFontAttributes = FontAttributes.Bold;
+        }
+        else
+        {
+            switch (length)
+            {
+                //no font styling should apply
+                case < 50:
+                    QuoteFontAttributes = FontAttributes.None;
+                    break;
+                //the font styling should be underlined
+                case < 80:
+                    QuoteFontAttributes = FontAttributes.None;
+                    QuoteTextDecorations = TextDecorations.Underline;
+                    break;
+                //the font styling should be italic
+                default:
+                    QuoteFontAttributes = FontAttributes.Italic;
+                    break;
+            }
+        }
+    }
+
+    public void ApplyTextColours(int length)
+    {
+        //The quote length is divisible by 3, the font colour should always be green
+        if (length % 3 == 0)
+        {
+            QuoteTextColor = Colors.Green;
+        }
+        else
+        {
+            switch (length)
+            {
+                case < 30:
+                    QuoteTextColor = Colors.Black;
+                    break;
+                case <= 65:
+                    QuoteTextColor = Colors.Purple;
+                    break;
+                case < 100:
+                    QuoteTextColor = Colors.Red;
+                    break;
+                default:
+                    QuoteTextColor = Colors.Blue;
+                    break;
+            }
+        }
+    }
+
     public event PropertyChangedEventHandler PropertyChanged;
+    protected virtual void OnPropertyChanged(string propertyName) =>
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 }
